@@ -2,7 +2,7 @@
 
 ## Create AKS cluster
 
-This is a very simple step, yet very powerful, as all the intricacies of configuring and installing a Kubernetes Cluster are abstracted out for you. Behind the scenes, Azure uses [ACS Engine](https://github.com/Azure/acs-engine) for creating the cluster. ACS Engine, not to be confused for Azure Container Services (ACS), is an open utility for generating ARM Templates for Docker-enabled clusters, such as Kubernetes. It's worth noting that AKS *is* the replacement for Azure Container Services. Confusing... We know.
+This is a very simple step, yet very powerful, as all the intricacies of configuring and installing a Kubernetes Cluster are abstracted out for you. Behind the scenes, Azure uses [ACS Engine](https://github.com/Azure/acs-engine) for creating the cluster. ACS Engine, not to be confused with Azure Container Services (ACS), is an open source utility for generating ARM Templates for Docker-enabled clusters, such as Kubernetes. It's worth noting that AKS *is* the replacement for Azure Container Services. Confusing... We know.
 
 1. On your workstation (Linux VM or equivalent *nix environment), open the terminal.
 
