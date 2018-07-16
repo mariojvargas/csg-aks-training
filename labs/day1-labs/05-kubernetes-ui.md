@@ -24,7 +24,7 @@ There are multiple ways of accessing Kubernetes dashboard. You can access throug
     cbus-aks-training  eastus
     ```
 
-3. Prepare to be mesmerized. Now use the AKS Browse command to magically open the web browser on the local machine, amazingly opening the Kuberbetes Dashboard in your favorite Web browser. This will only work if your current Linux VM is running a desktop interface. The AKS Browse command uses a lot of black magic behind, called port forwarding, the scenes, exposing the Kubernetes Dashboard using a secure connection via the URL [http://127.0.0.1:8001/](http://127.0.0.1:8001/). Slow Clap.
+3. Prepare to be mesmerized. Now use the [AZ AKS Browse](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-browse) command to magically open the web browser on the local machine, amazingly opening the Kuberbetes Dashboard in your favorite Web browser. This will only work if your current Linux VM is running a desktop interface. The AKS Browse command uses a lot of black magic behind, called port forwarding, the scenes, exposing the Kubernetes Dashboard using a secure connection via the URL [http://127.0.0.1:8001/](http://127.0.0.1:8001/). Slow Clap.
 
     ```bash
     $ az aks browse --resource-group cbus-aks-training --name cbus-aks-training
