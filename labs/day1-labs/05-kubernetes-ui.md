@@ -14,7 +14,7 @@ There are multiple ways of accessing Kubernetes dashboard. You can access throug
     $ az login
     ```
 
-2. Once you're logged in to Azure, verify the resource group `cbus-aks-training` is listed. The funky query syntax you're seeing below is called [JMESPath](http://jmespath.org/)--*Believe me... It took me a while to figure out the propery query without recourse to `grep`. :-)*
+2. Once you're logged in to Azure, verify the resource group `cbus-aks-training` is listed. The funky query syntax you're seeing below is called [JMESPath](http://jmespath.org/)--*Believe me... It took me a while to figure out the proper query without recourse to `grep`. :-)*
 
     ```bash
     $ az group list --query "[?name=='cbus-aks-training']" --output table
