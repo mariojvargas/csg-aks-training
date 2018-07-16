@@ -106,7 +106,7 @@ Once the cluster is created, the AZ CLI should output information about the clus
 
 7. Verify you have API access to your new AKS cluster
 
-    > Note: It can take 5 minutes for your nodes to appear and be in READY state. You can run `watch kubectl get nodes` to monitor status. 
+    > Note: It can take 5 minutes or even longer for your nodes to appear and be in READY state. You can run `watch kubectl get nodes` to monitor status. 
     
     ```bash
     $ kubectl get nodes
