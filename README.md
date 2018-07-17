@@ -1,4 +1,4 @@
-# Columbus AKS Traning
+# CSG Columbus AKS Traning
 
 ## Overview
 
@@ -24,7 +24,7 @@ The labs are based upon a node.js application that allows for voting on the Just
 
 ## Disclaimer
 
-This project is based off of the [Black Belt AKS Hackfest Labs](https://github.com/Azure/blackbelt-aks-hackfest) and has been adapted for internal training use.
+This project is based on the [Black Belt AKS Hackfest Labs](https://github.com/Azure/blackbelt-aks-hackfest) and has been adapted for internal training use.
 
 ## License
 

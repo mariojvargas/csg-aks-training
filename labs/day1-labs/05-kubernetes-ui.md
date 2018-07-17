@@ -6,9 +6,9 @@ The Kubernetes dashboard is a Web utility that lets you view, monitor, and troub
 
 ### Accessing The Dashboard UI
 
-There are multiple ways of accessing Kubernetes dashboard. You can access through the kubectl command-line interface using the `kubectl proxy` command, assuming the cluster is running on the local host, or through the master server API. We'll be using the AZ CLI, as it provides a secure connection that doesn't expose the UI to the internet.
+There are multiple ways of accessing the Kubernetes dashboard. You can access it through the `kubectl` command-line interface using the `kubectl proxy` command, assuming the cluster is running on the local host, or through the master server API. We'll be using the AZ CLI, as it provides a secure connection that doesn't expose the UI to the Internet.
 
-1. Login to Azure using the AZ CLI: 
+1. If you're not already logged in, log in to Azure using the AZ CLI: 
 
     ```bash
     $ az login
@@ -24,7 +24,7 @@ There are multiple ways of accessing Kubernetes dashboard. You can access throug
     cbus-aks-training  eastus
     ```
 
-3. Prepare to be mesmerized. Now use the [AZ AKS Browse](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-browse) command to magically open the web browser on the local machine, amazingly opening the Kuberbetes Dashboard in your favorite Web browser. This will only work if your current Linux VM is running a desktop interface. The AKS Browse command uses a lot of black magic behind, called port forwarding, behind the scenes, exposing the Kubernetes Dashboard using a secure connection via the URL [http://127.0.0.1:8001/](http://127.0.0.1:8001/). Slow Clap.
+3. Prepare to be mesmerized. Now use the [AZ AKS Browse](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-browse) command to magically open the web browser on the local machine, amazingly opening the Kuberbetes Dashboard in your favorite Web browser. This will work only if your current Linux VM is running a desktop interface. The AKS Browse command uses a lot of black magic behind, called port forwarding, behind the scenes, exposing the Kubernetes Dashboard using a secure connection via the URL [http://127.0.0.1:8001/](http://127.0.0.1:8001/). Slow Clap.
 
     ```bash
     $ az aks browse --resource-group cbus-aks-training --name cbus-aks-training

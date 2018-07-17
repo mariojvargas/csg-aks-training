@@ -26,64 +26,64 @@ This is a very simple step, yet very powerful, as all the intricacies of configu
        --node-count 2 \
        --kubernetes-version 1.7.7 \
        --generate-ssh-keys \
-       ---location eastus
+       --location eastus
     ```
 
 Once the cluster is created, the AZ CLI should output information about the cluster in JSON format. For automated scenarios, this can be helpful. You can ignore it for now, as it is a sign that the cluster was created successfully. Below is an example:
 
 ```json
 {
-"aadProfile": null,
-"addonProfiles": null,
-"agentPoolProfiles": [
-    {
-    "count": 2,
-    "dnsPrefix": null,
-    "fqdn": null,
-    "maxPods": 110,
-    "name": "nodepool1",
-    "osDiskSizeGb": null,
-    "osType": "Linux",
-    "ports": null,
-    "storageProfile": "ManagedDisks",
-    "vmSize": "Standard_DS1_v2",
-    "vnetSubnetId": null
-    }
-],
-"dnsPrefix": "cbus-aks-t-cbus-aks-trainin-2ee8d5",
-"enableRbac": false,
-"fqdn": "cbus-aks-t-cbus-aks-trainin-2ee8d5-f1886e11.hcp.eastus.azmk8s.io",
-"id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/cbus-aks-training/providers/Microsoft.ContainerService/managedClusters/cbus-aks-training",
-"kubernetesVersion": "1.7.7",
-"linuxProfile": {
-    "adminUsername": "azureuser",
-    "ssh": {
-    "publicKeys": [
+    "aadProfile": null,
+    "addonProfiles": null,
+    "agentPoolProfiles": [
         {
-        "keyData": "ssh-rsa aBase64String== example@example.com\n"
+        "count": 2,
+        "dnsPrefix": null,
+        "fqdn": null,
+        "maxPods": 110,
+        "name": "nodepool1",
+        "osDiskSizeGb": null,
+        "osType": "Linux",
+        "ports": null,
+        "storageProfile": "ManagedDisks",
+        "vmSize": "Standard_DS1_v2",
+        "vnetSubnetId": null
         }
-    ]
-    }
-},
-"location": "eastus",
-"name": "cbus-aks-training",
-"networkProfile": {
-    "dnsServiceIp": "10.0.0.10",
-    "dockerBridgeCidr": "172.17.0.1/16",
-    "networkPlugin": "kubenet",
-    "networkPolicy": null,
-    "podCidr": "10.244.0.0/16",
-    "serviceCidr": "10.0.0.0/16"
-},
-"provisioningState": "Succeeded",
-"resourceGroup": "cbus-aks-training",
-"servicePrincipalProfile": {
-    "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "keyVaultSecretRef": null,
-    "secret": null
-},
-"tags": null,
-"type": "Microsoft.ContainerService/ManagedClusters"
+    ],
+    "dnsPrefix": "cbus-aks-t-cbus-aks-trainin-2ee8d5",
+    "enableRbac": false,
+    "fqdn": "cbus-aks-t-cbus-aks-trainin-2ee8d5-f1886e11.hcp.eastus.azmk8s.io",
+    "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/cbus-aks-training/providers/Microsoft.ContainerService/managedClusters/cbus-aks-training",
+    "kubernetesVersion": "1.7.7",
+    "linuxProfile": {
+        "adminUsername": "azureuser",
+        "ssh": {
+        "publicKeys": [
+            {
+            "keyData": "ssh-rsa aBase64String== example@example.com\n"
+            }
+        ]
+        }
+    },
+    "location": "eastus",
+    "name": "cbus-aks-training",
+    "networkProfile": {
+        "dnsServiceIp": "10.0.0.10",
+        "dockerBridgeCidr": "172.17.0.1/16",
+        "networkPlugin": "kubenet",
+        "networkPolicy": null,
+        "podCidr": "10.244.0.0/16",
+        "serviceCidr": "10.0.0.0/16"
+    },
+    "provisioningState": "Succeeded",
+    "resourceGroup": "cbus-aks-training",
+    "servicePrincipalProfile": {
+        "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "keyVaultSecretRef": null,
+        "secret": null
+    },
+    "tags": null,
+    "type": "Microsoft.ContainerService/ManagedClusters"
 }
 ```
 
@@ -106,7 +106,7 @@ Once the cluster is created, the AZ CLI should output information about the clus
 
 7. Verify you have API access to your new AKS cluster
 
-    > Note: It can take 5 minutes or even longer for your nodes to appear and be in READY state. You can run `watch kubectl get nodes` to monitor status. 
+    > Note: It can take 5 minutes or even longer for your nodes to appear and be in `READY` state. You can run `watch kubectl get nodes` to monitor status. 
     
     ```bash
     $ kubectl get nodes
@@ -129,4 +129,4 @@ Once the cluster is created, the AZ CLI should output information about the clus
     To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
     ```
 
-You should now have a Kubernetes cluster running with 2 nodes. You do not see the master servers for the cluster because these are managed by Microsoft. The Control Plane services which manage the Kubernetes cluster such as scheduling, API access, configuration data store and object controllers are all provided as services to the nodes. 
+You should now have a Kubernetes cluster running with 2 nodes. You do not see the master servers for the cluster because these are managed by Microsoft. The Control Plane services, which manage the Kubernetes cluster such as scheduling, API access, configuration data store and object controllers, are all provided as services to the nodes. 
