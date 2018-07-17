@@ -8,7 +8,7 @@ The labs are based upon a node.js application that allows for voting on the Just
 
 > Note: These labs are designed to run on a Linux CentOS VM running in Azure (jumpbox) along with Azure Cloud Shell. They can potentially be run locally on a Mac or Windows, but the instructions are not written towards that experience. ie - "You're on your own."
 
-> Note: Since we are working on a jumpbox, note that Copy and Paste are a bit different when working in the terminal. You can use Shift+Ctrl+C for Copy and Shift+Ctrl+V for Paste when working in the terminal. Outside of the terminal Copy and Paste behaves as expected using Ctrl+C and Ctrl+V. 
+> Note: Since we are working on a jumpbox, note that Copy and Paste are a bit different when working in the terminal. You can use Shift+Ctrl+C for Copy and Shift+Ctrl+V for Paste when working in the terminal. Outside of the terminal Copy and Paste behaves as expected using Ctrl+C and Ctrl+V.
 
 ## Course Outline
 
@@ -19,9 +19,15 @@ The labs are based upon a node.js application that allows for voting on the Just
 5. [Deploy application to Azure Kubernetes Service](labs/day1-labs/04-deploy-app-aks.md)
 6. [Kubernetes UI Overview](labs/day1-labs/05-kubernetes-ui.md)
 7. [Operational Monitoring and Log Management](labs/day1-labs/06-monitoring-k8s.md)
-8. [Application and Infrastructure Scaling](labs/day1-labs/07-cluster-scaling.md)
-9. [Update and Deploy New Version of Application](labs/day1-labs/09-update-application.md)
-10. [Upgrade an Azure Kubernetes Service (AKS) cluster](labs/day1-labs/10-cluster-upgrading.md)
+8. [Update and Deploy New Version of Application](labs/day1-labs/09-update-application.md)
+9. [Kubernetes Ingress Controllers](labs/day2-labs/ingress-controller.md)
+
+## Demos
+
+These labs, in addition to creating an AKS Cluster, have the potential to take a significant amount of time to complete. Therefore, these are intended to be presented as a demo as is or to be followed outside of a classroom setting.
+
+1. [Application and Infrastructure Scaling](labs/day1-labs/07-cluster-scaling.md)
+2. [Upgrade an Azure Kubernetes Service (AKS) cluster](labs/day1-labs/10-cluster-upgrading.md)
 
 ## Credits and Source
 
