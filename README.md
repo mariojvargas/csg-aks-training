@@ -21,8 +21,7 @@ The labs are based upon a node.js application that allows for voting on the Just
   9. [Update and Deploy New Version of Application](labs/day1-labs/09-update-application.md)
   10. [Upgrade an Azure Kubernetes Service (AKS) cluster](labs/day1-labs/10-cluster-upgrading.md)
 
-
-## Disclaimer
+## Credits and Source
 
 This project is based on the [Black Belt AKS Hackfest Labs](https://github.com/Azure/blackbelt-aks-hackfest) and has been adapted for internal training use.
 
