@@ -201,7 +201,7 @@ Creating an ACR instance is very simple. You can accomplish this via the Azure P
     }    
     ```
 
-3. Next, we need to enable Admin access to our ACR instance. In the output JSON, verify that the `adminUserEnabled` property is set to `true`.
+3. Next, we need to enable Admin access to our ACR instance. This will allow us to retrieve the ACR credentials via the command line. In the output JSON, verify that the `adminUserEnabled` property is set to `true`. You should reset this value to `false` later.
 
     ```bash
     $ az acr update -n <your-acr-name> --admin-enabled true
@@ -209,42 +209,70 @@ Creating an ACR instance is very simple. You can accomplish this via the Azure P
 
 ### Login to your ACR with Docker
 
-1. Browse to your Container Registry in the Azure Portal
-2. Click on "Access keys"
-3. Make note of the "Login server", "Username", and "password"
-4. In the terminal session on the jumpbox, set each value to a variable as shown below
+Now, in order for us to push our Docker images to ACR, we need to be able to login to ACR with Docker. You can achieve this by going to the Azure Container Registry in the Azure Portal, but we'll opt to accomplish this with the AZ CLI.
+
+1. Show the ACR credentials. The AZ CLI will return them in JSON format. Note that the username is the same as your ACR name. The AZ ACR command will display two passwords. You can use either one.
+
+    ```bash
+    $ az acr credential show --name <your-acr-name> --resource-group cbus-aks-training
+
+    {
+    "passwords": [
+        {
+        "name": "password",
+        "value": "Supersecret+base64String"
+        },
+        {
+        "name": "password2",
+        "value": "Supersecret=base64String"
+        }
+    ],
+    "username": "mvargasacr"
+    }
 
     ```
-    # set these values to yours
-    ACR_SERVER=
-    ACR_USER=
-    ACR_PWD=
+4. In the terminal session, set each value to a variable as shown below. Your ACR name will probably be different, depending on which name you used above to create it. We'll be using `mvargasacr` in this example:
 
-    docker login --username $ACR_USER --password $ACR_PWD $ACR_SERVER
+    ```bash
+    $ ACR_SERVER=mvargasacr.azurecr.io
+    $ ACR_USER=mvargasacr
+    $ ACR_PASSWORD=Supersecret+base64String
+
+    $ docker login --username $ACR_USER --password $ACR_PASSWORD $ACR_SERVER
+
+    # Output from the above command. Ignore the warning shown
+    WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+    Login Succeeded
     ```
 
 ### Tag images with ACR server and repository 
 
-```
-# Be sure to replace the login server value
+In the same terminal session, since we stored the ACR login server in the environment variable `ACR_SERVER`, enter the following. The name `azureworkshop` is arbitrary.
 
-docker tag rating-db $ACR_SERVER/azureworkshop/rating-db:v1
-docker tag rating-api $ACR_SERVER/azureworkshop/rating-api:v1
-docker tag rating-web $ACR_SERVER/azureworkshop/rating-web:v1
+```bash
+$ docker tag rating-db $ACR_SERVER/azureworkshop/rating-db:v1
+
+$ docker tag rating-api $ACR_SERVER/azureworkshop/rating-api:v1
+
+$ docker tag rating-web $ACR_SERVER/azureworkshop/rating-web:v1
 ```
 
 ### Push images to registry
 
-```
-docker push $ACR_SERVER/azureworkshop/rating-db:v1
-docker push $ACR_SERVER/azureworkshop/rating-api:v1
-docker push $ACR_SERVER/azureworkshop/rating-web:v1
+In the same terminal sessions, let's push our Docker images to ACR.
+
+```bash
+$ docker push $ACR_SERVER/azureworkshop/rating-db:v1
+
+$ docker push $ACR_SERVER/azureworkshop/rating-api:v1
+
+$ docker push $ACR_SERVER/azureworkshop/rating-web:v1
 ```
 
 Output from a successful `docker push` command is similar to:
 
 ```
-The push refers to a repository [mycontainerregistry.azurecr.io/azureworkshop/rating-db]
+The push refers to a repository [mvargasacr.azurecr.io/azureworkshop/rating-db]
 035c23fa7393: Pushed
 9c2d2977a0f4: Pushed
 d7b18f71e002: Pushed
@@ -263,5 +291,33 @@ v1: digest: sha256:f84eba148dfe244f8f8ad0d4ea57ebf82b6ff41f27a903cbb7e3fbe377bb2
 
 ### Validate images in Azure
 
-1. Return to the Azure Portal in your browser and validate that the images appear in your Container Registry under the "Repositories" area.
-2. Under tags, you will see "v1" listed.
+There are two ways to validate that the images are indeed in Azure. You can verify their creation from within the Azure Portal (Resource Groups > cbus-aks-training > your-acr-name > repositories, and then click on each repository). An example screen shot is shown below. However, the cool kids prefer the AZ CLI. Let's do that.
+
+1. List out repositories in ACR:
+
+    ```bash
+    $ az acr repository list --resource-group cbus-aks-training \
+        --name <your-acr-name> --output table
+
+    Result
+    ------------------------
+    azureworkshop/rating-api
+    azureworkshop/rating-db
+    azureworkshop/rating-web
+    ```
+
+2. Pick one of the above repositories. Let's list out the tags it has. For example, we're going to list the tags associated with the `azureworkshop/rating-api` repository:
+
+    ```bash
+    $ az acr repository show-tags -g cbus-aks-training \
+        -n <your-acr-name> --repository azureworkshop/rating-api \
+        -o table
+
+    Result
+    --------
+    v1
+    ```
+
+#### Viewing Docker repositories in Azure Container Registry
+
+![alt text](img/acr-repository-images.png "Example Repository Images in ACR")
