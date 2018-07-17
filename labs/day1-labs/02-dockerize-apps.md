@@ -6,41 +6,37 @@ For the first container, we will be creating a Dockerfile from scratch. For the 
 
 ### Web Container
 
-1. Create a Dockerfile
+In the `~/repos/cbus-aks-training/app/web` directory, there is already a Dockerfile created for you. Examine the Dockerfile by opening it or displaying its contents using `cat Dockerfile`. Its contents are shown below for your convenience. Notice the use of both build arguments (`ARG`) and ENVironment variables.
 
-    * In the `~/repos/cbus-aks-training/app/web` directory, add a file called `Dockerfile`
-        * If you are in an SSH session, use Vim as the editor
-        * In RDP or in a *nix desktop environment, you can use Visual Studio Code
+```Dockerfile
+FROM node:9.4.0-alpine
 
-    * Add the following lines and save:
+ARG VCS_REF
+ARG BUILD_DATE
+ARG IMAGE_TAG_REF
 
-        ```Docker
-        FROM node:9.4.0-alpine
+ENV GIT_SHA $VCS_REF
+ENV IMAGE_BUILD_DATE $BUILD_DATE
+ENV IMAGE_TAG $IMAGE_TAG_REF
 
-        ARG VCS_REF
-        ARG BUILD_DATE
-        ARG IMAGE_TAG_REF
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
 
-        ENV GIT_SHA $VCS_REF
-        ENV IMAGE_BUILD_DATE $BUILD_DATE
-        ENV IMAGE_TAG $IMAGE_TAG_REF
+COPY . .
+RUN apk --no-cache add curl
+EXPOSE 8080
 
-        WORKDIR /usr/src/app
-        COPY package*.json ./
-        RUN npm install
+CMD [ "npm", "run", "container" ]
+```
 
-        COPY . .
-        RUN apk --no-cache add curl
-        EXPOSE 8080
+After examining the contents of the Node.js Web app's Dockerfile, let us now build the container image.
 
-        CMD [ "npm", "run", "container" ]
-        ```
-
-2. Create a container image for the Node.js Web app. From the terminal session, type the following commands. Please remember to supply the "`.`" at the end of the `docker build` command, as this indicates the current working directory: 
+1. From the terminal session, open the `~/repos/cbus-aks-training/app/web` directory. Then type in the below `docker build` command. Please remember to supply the "`.`" at the end of the `docker build` command, as this indicates to Docker it should build out of the current working directory:
 
     ```bash
     $ cd ~/repos/cbus-aks-training/app/web
-    
+
     $ docker build \
         --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
         --build-arg VCS_REF=`git rev-parse --short HEAD` \
@@ -48,7 +44,7 @@ For the first container, we will be creating a Dockerfile from scratch. For the 
         -t rating-web .
     ```
 
-3. Validate the image was created with `docker images`
+2. Validate the image was created with `docker images`
 
 ### API Container
 
@@ -78,15 +74,14 @@ In this step, the Dockerfile has been created for you. Feel free to inspect it.
 
 2. Validate image was created with `docker images`
 
-
 ## Run Containers
 
 ### Setup Docker Network
 
-Create a docker bridge network to allow the containers to communicate internally. 
+Create a docker bridge network to allow the containers to communicate internally.
 
 ```bash
-$ docker network create --subnet=172.18.0.0/16 my-network
+$ docker network create --subnet=172.18.0.0/16 heroes-league
 ```
 
 ### MongoDB Container
@@ -94,7 +89,7 @@ $ docker network create --subnet=172.18.0.0/16 my-network
 1. Run mongo container
 
     ```bash
-    $ docker run -d --name db --net my-network \
+    $ docker run -d --name db --net heroes-league \
         --ip 172.18.0.10 -p 27017:27017 rating-db
     ```
 
@@ -126,8 +121,8 @@ $ docker network create --subnet=172.18.0.0/16 my-network
 
     ```bash
     $ docker run -d --name api \
-        -e "MONGODB_URI=mongodb://172.18.0.10:27017/webratings" \ 
-        --net my-network --ip 172.18.0.11 -p 3000:3000 rating-api
+        -e "MONGODB_URI=mongodb://172.18.0.10:27017/webratings" \
+        --net heroes-league --ip 172.18.0.11 -p 3000:3000 rating-api
     ```
 
     > Note that environment variables are used here to direct the api app to mongo.
@@ -145,15 +140,19 @@ $ docker network create --subnet=172.18.0.0/16 my-network
 
     ```bash
     $ docker run -d --name web -e "API=http://172.18.0.11:3000/" \
-        --net my-network --ip 172.18.0.12 -p 8080:8080 rating-web
+        --net heroes-league --ip 172.18.0.12 -p 8080:8080 rating-web
     ```
 
 2. Validate by running `docker ps -a`
 
-3. Test web app by navigating to [http://localhost:8080/](http://localhost:8080/) in your Web browser (assuming your *nix has a desktop environment). Otherwise, you can also test via curl:
+3. Test web app by navigating to [http://localhost:8080/](http://localhost:8080/) in your Web browser (assuming your *nix machine has a desktop environment). Otherwise, you can also test via curl:
 
     ```bash
-    $ curl http://localhost:8080
+    $ curl http://localhost:8080/
+
+    <html>
+    ...
+    </html>
     ```
 
 ## Azure Container Registry (ACR)
