@@ -28,10 +28,11 @@ The [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/) (or 
 2. Validate that Nginx was installed
 
     ``` bash
-    $ kubectl get pods -n kube-system | grep nginx
+    $ kubectl get svc -n kube-system -o wide --selector="app=nginx-ingress"
 
-    ingress-nginx-ingress-controller-86bf69bcfc-jqvsg        1/1       Running   0          1d
-    ingress-nginx-ingress-default-backend-86d6db4c47-td2k8   1/1       Running   0          1d
+    NAME                                    TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
+    ingress-nginx-ingress-controller        LoadBalancer   10.0.77.71     52.179.211.89   80:32319/TCP,443:30487/TCP   20d       app=nginx-ingress,component=controller,release=ingress
+    ingress-nginx-ingress-default-backend   ClusterIP      10.0.232.223   <none>          80/TCP                       20d       app=nginx-ingress,component=default-backend,release=ingress
     ```
 
     The nginx-ingress helm chart deploys a Nginx ingress controller and also a backend for the ingress controller. The backend is used when a route is not found and will display a 404 error. You can browse to the public IP to preview this.
