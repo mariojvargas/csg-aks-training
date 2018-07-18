@@ -28,7 +28,7 @@ This is a very simple step, yet very powerful, as all the intricacies of configu
     $ az aks create --name cbus-aks-training \
        --resource-group cbus-aks-training \
        --node-count 2 \
-       --kubernetes-version 1.7.7 \
+       --kubernetes-version 1.8.1 \
        --generate-ssh-keys \
        --location eastus
     ```
@@ -58,7 +58,7 @@ Once the cluster is created, the AZ CLI should output information about the clus
     "enableRbac": false,
     "fqdn": "cbus-aks-t-cbus-aks-trainin-2ee8d5-f1886e11.hcp.eastus.azmk8s.io",
     "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/cbus-aks-training/providers/Microsoft.ContainerService/managedClusters/cbus-aks-training",
-    "kubernetesVersion": "1.7.7",
+    "kubernetesVersion": "1.8.1",
     "linuxProfile": {
         "adminUsername": "azureuser",
         "ssh": {
@@ -96,7 +96,7 @@ Once the cluster is created, the AZ CLI should output information about the clus
     ```
     Name               Location    ResourceGroup      KubernetesVersion    ProvisioningState    Fqdn
     -----------------  ----------  -----------------  -------------------  -------------------  -----------------------------------------------------------------
-    cbus-aks-training  eastus      cbus-aks-training  1.7.7                Succeeded            cbus-aks-t-cbus-aks-trainin-2ee8d5-f1886e11.hcp.eastus.azmk8s.io
+    cbus-aks-training  eastus      cbus-aks-training  1.8.1                Succeeded            cbus-aks-t-cbus-aks-trainin-2ee8d5-f1886e11.hcp.eastus.azmk8s.io
     mario-aks-sandbox  eastus2     mario-aks-sandbox  1.8.11               Succeeded            mario-aks--mario-aks-sandbo-2ee8d5-1f2ba3ec.hcp.eastus2.azmk8s.io
     ```
 
@@ -116,8 +116,8 @@ Once the cluster is created, the AZ CLI should output information about the clus
     $ kubectl get nodes
 
     NAME                       STATUS    ROLES     AGE       VERSION
-    aks-nodepool1-57028559-0   Ready     agent     15m       v1.7.7
-    aks-nodepool1-57028559-1   Ready     agent     14m       v1.7.7
+    aks-nodepool1-57028559-0   Ready     agent     15m       v1.8.1
+    aks-nodepool1-57028559-1   Ready     agent     14m       v1.8.1
     ```
     
     To see more details about your cluster: 
