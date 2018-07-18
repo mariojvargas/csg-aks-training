@@ -6,7 +6,7 @@ The Kubernetes dashboard is a Web utility that lets you view, monitor, and troub
 
 ### Accessing The Dashboard UI
 
-There are multiple ways of accessing the Kubernetes dashboard. You can access it through the `kubectl` command-line interface using the `kubectl proxy` command, assuming the cluster is running on the local host, or through the master server API. We'll be using the AZ CLI, as it provides a secure connection that doesn't expose the UI to the Internet.
+There are multiple ways of accessing the Kubernetes dashboard. You can access it through the `kubectl` command-line interface using either the `kubectl proxy` or `kubectl port-forward` command, assuming the cluster is running on the local host, or through the master server API. We'll be using the AZ CLI, as it provides a secure connection that doesn't expose the UI to the Internet.
 
 1. If you're not already logged in, log in to Azure using the AZ CLI: 
 
@@ -35,6 +35,16 @@ There are multiple ways of accessing the Kubernetes dashboard. You can access it
     Forwarding from 127.0.0.1:8001 -> 9090
     Forwarding from [::1]:8001 -> 9090
     Handling connection for 8001
+    ```
+
+    Here's another approach that uses port-forwarding via `kubectl port-forward`.
+
+    ```bash
+    $ kubectl port-forward svc/kubernetes-dashboard 9090:80
+
+    Forwarding from 127.0.0.1:9090 -> 9090
+    Forwarding from [::1]:9090 -> 9090
+    Handling connection for 9090
     ```
 
 ### Explore Kubernetes Dashboard
