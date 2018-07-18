@@ -6,9 +6,11 @@ This workshop will guide you through migrating an application from "on-premise" 
 
 The labs are based upon a node.js application that allows for voting on the Justice League Superheroes (with more options coming soon). Data is stored in MongoDB.
 
-> Note: These labs are designed to run on a Linux CentOS VM running in Azure (jumpbox) along with Azure Cloud Shell. They can potentially be run locally on a Mac or Windows, but the instructions are not written towards that experience. ie - "You're on your own."
+The labs assume you have a basic understanding of *nix environments, such as Linux and MacOS, as the labs utilize heavy use of the command line (terminal).
 
-> Note: Since we are working on a jumpbox, note that Copy and Paste are a bit different when working in the terminal. You can use Shift+Ctrl+C for Copy and Shift+Ctrl+V for Paste when working in the terminal. Outside of the terminal Copy and Paste behaves as expected using Ctrl+C and Ctrl+V.
+Certain labs, such as launching the Kubernetes UI or running Docker containers locally, require use of a Desktop environment. If you have a Ubuntu VM running in Azure, you can [configure Remote Desktop for it and install a desktop environment](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/use-remote-desktop).
+
+> Note: These labs are designed to run on a Linux Ubuntu VM running in Azure or locally. They can potentially be run locally on a Mac without any issues or on Windows with some caveats. In fact, the labs were tested and run using a MacOS X system. If you intend to follow these instructions on a Windows environment, although we strongly discourage you from doing so, "you're on your own."
 
 ## Course Outline
 
