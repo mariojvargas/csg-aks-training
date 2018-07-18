@@ -1,6 +1,6 @@
 # Lab Environment
 
-## Self-guided
+## Self-Guided or Classroom Setting
 
 You will need the following in order to complete these labs:
 
@@ -14,3 +14,22 @@ You will need the following in order to complete these labs:
 * Kubernetes CLI (`kubectl`)
 * Git
 * Optional: GitHub account
+
+## Clone or Fork this Repository
+
+It is recommended that you either clone this repository or fork it and modify as necessary.
+
+If you clone this repository, create a directory called `repos` under your home directory (`~`). `cd` into that directory and clone from there.
+
+> Our labs assume that this repository clone is in the `~/repos/cbus-aks-training` directory.
+
+```bash
+$ mkdir ~/repos
+
+$ cd ~/repos
+
+$ pwd
+/Users/mvargas/repos
+
+$ git clone https://github.com/mariojvargas/csg-aks-training.git
+```
