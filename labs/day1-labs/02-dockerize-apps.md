@@ -6,7 +6,7 @@ For the first container, we will be creating a Dockerfile from scratch. For the 
 
 ### Web Container
 
-In the `~/repos/cbus-aks-training/app/web` directory, there is already a Dockerfile created for you. Examine the Dockerfile by opening it or displaying its contents using `cat Dockerfile`. Its contents are shown below for your convenience. Notice the use of both build arguments (`ARG`) and ENVironment variables.
+In the `~/repos/csg-aks-training/app/web` directory, there is already a Dockerfile created for you. Examine the Dockerfile by opening it or displaying its contents using `cat Dockerfile`. Its contents are shown below for your convenience. Notice the use of both build arguments (`ARG`) and ENVironment variables.
 
 ```Dockerfile
 FROM node:9.4.0-alpine
@@ -32,10 +32,10 @@ CMD [ "npm", "run", "container" ]
 
 After examining the contents of the Node.js Web app's Dockerfile, let us now build the container image.
 
-1. From the terminal session, open the `~/repos/cbus-aks-training/app/web` directory. Then type in the below `docker build` command. Please remember to supply the "`.`" at the end of the `docker build` command, as this indicates to Docker it should build out of the current working directory:
+1. From the terminal session, open the `~/repos/csg-aks-training/app/web` directory. Then type in the below `docker build` command. Please remember to supply the "`.`" at the end of the `docker build` command, as this indicates to Docker it should build out of the current working directory:
 
     ```bash
-    $ cd ~/repos/cbus-aks-training/app/web
+    $ cd ~/repos/csg-aks-training/app/web
 
     $ docker build \
         --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
@@ -53,7 +53,7 @@ In this step, the Dockerfile has been created for you. Feel free to inspect it.
 1. Create a container image for the Node.js API app
 
     ```bash
-    $ cd ~/repos/cbus-aks-training/app/api
+    $ cd ~/repos/csg-aks-training/app/api
 
     $ cat Dockerfile
 
@@ -67,7 +67,7 @@ In this step, the Dockerfile has been created for you. Feel free to inspect it.
 1. Create a MongoDB image with data files
 
     ```bash
-    $ cd ~/repos/cbus-aks-training/app/db
+    $ cd ~/repos/csg-aks-training/app/db
 
     $ docker build -t rating-db .
     ```
