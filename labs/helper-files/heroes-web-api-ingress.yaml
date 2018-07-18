@@ -131,7 +131,8 @@ spec:
     - host:
       http:
         paths:
-          - backend:
+          - path: /
+            backend:
               serviceName: web
               servicePort: 8080
-            path: /
+                        

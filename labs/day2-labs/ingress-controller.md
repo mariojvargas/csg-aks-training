@@ -36,8 +36,7 @@ The [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/) (or 
 1. Install Nginx using Helm CLI. This will install the Nginx Ingress Controller into the K8s cluster under the `kube-system` namespace, which is created and reserved for internal Kubernetes services, such as `kube-dns`, `kube-proxy`, etc.  
 
     ``` bash
-    $ helm install --name ingress stable/nginx-ingress \
-        --namespace kube-system
+    $ helm install --name ingress stable/nginx-ingress --namespace kube-system
     ```
 
 2. Validate that Nginx was installed
@@ -135,7 +134,7 @@ We will now deploy the application with a configured Ingress resource.
     $ kubectl apply -f heroes-web-api-ingress.yaml
     ```
 
-    > Note: Below is an example of a Ingress object. YAML is a white-honoring configuration format. The trickiest components about the Ingress configuration are located in the `rules:` section. The `http:` section is a child of the `- host:` list, but it is indented together with its parent `- host:` section. The same is true for the `paths:` and `- backend:` sections.
+    > Note: Below is an example of a Ingress configuration. Place special attention to the `rules:` section and how elements are indented, as it is one of the trickiest parts about configuring an Ingress. You can list out multiple paths, each pointing to a different `backend` if necessary. The `host:` can be set to an empty host or any valid domain name, such as `host: heroes.csgtraining.cardinalsolutions.com`.
 
     ```yaml
     ---
@@ -153,10 +152,10 @@ We will now deploy the application with a configured Ingress resource.
         - host:
           http:
             paths:
-              - backend:
+              - path: /
+                backend:
                   serviceName: web
                   servicePort: 8080
-                path: /
     ```
 
 7. Browse to the web app via the Ingress controller by obtaining its public (external) IP address.
