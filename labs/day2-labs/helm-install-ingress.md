@@ -28,20 +28,21 @@ The [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/) (or 
 2. Validate that Nginx was installed
 
     ``` bash
-    $ kubectl get svc -n kube-system -o wide --selector="app=nginx-ingress"
+    $ kubectl get pods -n kube-system --selector "app=nginx-ingress"
 
-    NAME                                    TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
-    ingress-nginx-ingress-controller        LoadBalancer   10.0.77.71     52.179.211.89   80:32319/TCP,443:30487/TCP   20d       app=nginx-ingress,component=controller,release=ingress
-    ingress-nginx-ingress-default-backend   ClusterIP      10.0.232.223   <none>          80/TCP                       20d       app=nginx-ingress,component=default-backend,release=ingress
+    NAME                                                     READY     STATUS    RESTARTS   AGE
+    ingress-nginx-ingress-controller-768fcd5669-w8lbn        1/1       Running   1          15h
+    ingress-nginx-ingress-default-backend-5884c46f87-grgkw   1/1       Running   1          15h
     ```
 
     The nginx-ingress helm chart deploys a Nginx ingress controller and also a backend for the ingress controller. The backend is used when a route is not found and will display a 404 error. You can browse to the public IP to preview this.
 
     ``` bash
-    $ kubectl get svc -n kube-system | grep nginx
+    $ kubectl get svc -n kube-system -o wide --selector "app=nginx-ingress"
 
-    ingress-nginx-ingress-controller       LoadBalancer  10.0.231.143  52.173.190.190  80:30910/TCP,443:30480/TCP  1d
-    ingress-nginx-ingress-default-backend  ClusterIP     10.0.175.123  <none>          80/TCP                      1d
+    NAME                                    TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
+    ingress-nginx-ingress-controller        LoadBalancer   10.0.77.71     52.179.211.89   80:32319/TCP,443:30487/TCP   20d       app=nginx-ingress,component=controller,release=ingress
+    ingress-nginx-ingress-default-backend   ClusterIP      10.0.232.223   <none>          80/TCP                       20d       app=nginx-ingress,component=default-backend,release=ingress
     ```
 
     The Nginx controller will use a LoadBalancer type service where the backend is of type ClusterIP.
