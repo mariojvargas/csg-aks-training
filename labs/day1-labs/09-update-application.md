@@ -90,7 +90,7 @@ There are two ways to update the application with the new version. Both are desc
 
 1. Set the new image tag on the deployment object
     ```bash
-    $ kubectl get deployments
+    $ kubectl get deployments --namespace mvargas
 
     NAME                DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
     heroes-api-deploy   1         1         1            1           29m
@@ -98,7 +98,11 @@ There are two ways to update the application with the new version. Both are desc
     heroes-web-depoy    1         1         1            1           29m
 
     $ kubectl set image deployment/heroes-web-deploy \
-        heroes-web-cntnr=$ACR_SERVER/azureworkshop/rating-web:v1.0.1
+        heroes-web-cntnr=$ACR_SERVER/azureworkshop/rating-web:v1.0.1 \
+        --namespace mvargas
+
+    # Output from kubectl set image
+    deployment.apps "heroes-web-deploy" image updated
     ```
 
 ## Check status
@@ -107,16 +111,16 @@ There are two ways to update the application with the new version. Both are desc
 
     ```bash
     # this command will verify that latest deployment was successful
-    $ kubectl rollout status deployment/heroes-web-deploy
+    $ kubectl rollout status deployment/heroes-web-deploy --namespace mvargas
 
     # each deployment creates a new replicaset
-    $ kubectl get replicaset | grep web
+    $ kubectl get replicaset --namespace mvargas
 
     heroes-web-556f6f976c          0         0         0         34m
     heroes-web-64f4795689          0         0         0         8m
     heroes-web-67b4b7b887          1         1         1         1m
 
-    $ kubectl rollout history deployment/heroes-web-deploy
+    $ kubectl rollout history deployment/heroes-web-deploy --namespace mvargas
     ```
 
 ## Browse to your newly deployed web application

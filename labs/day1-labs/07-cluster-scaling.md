@@ -13,11 +13,12 @@ Imagine a scenario where your realize that your existing cluster is at capacity 
 2. Check to see current number of heroes pods running via K8s CLI. Sample output shown (one replica of each pod):
 
     ```bash
-    $ kubectl get pods | grep heroes
+    $ kubectl get pods --namespace mvargas
 
-    heroes-api-deploy-1165643395-fwjtm             1/1       Running   0          2d
-    heroes-db-deploy-839157328-4656j               1/1       Running   0          2d
-    heroes-web-1677855039-8t57k                    1/1       Running   0          2d
+    NAME                                 READY     STATUS    RESTARTS   AGE
+    heroes-api-deploy-1165643395-fwjtm   1/1       Running   0          2d
+    heroes-db-deploy-839157328-4656j     1/1       Running   0          2d
+    heroes-web-1677855039-8t57k          1/1       Running   0          2d
     ```
 
 3. Scale out the Web application
@@ -26,7 +27,7 @@ Imagine a scenario where your realize that your existing cluster is at capacity 
 
     ```bash
     # This command will create multiple replicas of the heroes-web pod to simulate additional load on the cluster.
-    $ kubectl scale deploy/heroes-web-deploy --replicas=4
+    $ kubectl scale deploy/heroes-web-deploy --replicas=4 --namespace=mvargas
     ```
 
 4. Check to see number of pods now running via Grafana Dashboard
@@ -36,14 +37,14 @@ Imagine a scenario where your realize that your existing cluster is at capacity 
 5. Check to see number of heroes pods running via `kubectl`
 
     ```bash
-    kubectl get pod | grep heroes
+    kubectl get pods --namespace mvargas
 
     # You should see something like the following as output (more than one heroes-web pod and some of them in different states):
-    NAME                                                              READY     STATUS    RESTARTS   AGE
-    heroes-web-3683626428-4m1v4                                       0/1       Pending   0          2m
-    heroes-web-3683626428-hcs49                                       1/1       Running   0          4m
-    heroes-web-3683626428-z1t1j                                       0/1       Pending   0          2m
-    heroes-web-3683626428-zxp2s                                       1/1       Running   0          2m
+    NAME                            READY     STATUS    RESTARTS   AGE
+    heroes-web-3683626428-4m1v4     0/1       Pending   0          2m
+    heroes-web-3683626428-hcs49     1/1       Running   0          4m
+    heroes-web-3683626428-z1t1j     0/1       Pending   0          2m
+    heroes-web-3683626428-zxp2s     1/1       Running   0          2m
     ```
 
 6. Check up on Pods Running in Grafana dashboard

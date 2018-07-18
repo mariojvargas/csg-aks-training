@@ -84,6 +84,7 @@ We will now deploy the application with a configured Ingress resource.
 3. Change all image field in the YAML files to match your docker registry url.
 
     * Update the yaml files for the proper container image names.
+    * Update all instances of `namespace: <namespace-name>` to match your first initial and last name. For example: `namespace: mvargas`.
     * You will need to replace the `<login server>` with the ACR login server created in earlier labs.
         > Note: You will update the image name ***twice*** in the Web and API container images and ***once*** in the database container image.
 
@@ -105,14 +106,14 @@ We will now deploy the application with a configured Ingress resource.
 5. Connect into the pod and import the hero data
 
     ```bash
-    $ kubectl get pods
+    $ kubectl get pods --namespace mvargas
 
     NAME                                 READY     STATUS    RESTARTS   AGE
     heroes-db-deploy-2357291595-k7wjk    1/1       Running   0          3m
 
     $ MONGO_POD=heroes-db-deploy-2357291595-k7wjk
 
-    $ kubectl exec -it $MONGO_POD bash
+    $ kubectl exec -it --namespace mvargas $MONGO_POD bash
 
     # Execute the ./import.sh file
     root@heroes-db-deploy-2357291595-xb4xm:/# ./import.sh
@@ -141,19 +142,20 @@ We will now deploy the application with a configured Ingress resource.
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
-    name: heroes-web-ingress
-    annotations:
+      name: heroes-web-ingress
+      namespace: mvargas
+      annotations:
         kubernetes.io/ingress.class: nginx
         # Add to generate certificates for this ingress
         kubernetes.io/tls-acme: 'false'
     spec:
-    rules:
+      rules:
         - host:
-        http:
+          http:
             paths:
-            - backend:
-                serviceName: web
-                servicePort: 8080
+              - backend:
+                  serviceName: web
+                  servicePort: 8080
                 path: /
     ```
 
