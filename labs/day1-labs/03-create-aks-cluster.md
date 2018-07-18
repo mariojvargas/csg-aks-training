@@ -1,5 +1,9 @@
 # Azure Kubernetes Service (AKS) Deployment
 
+If you are using a shared AKS Cluster, feel free to read through this guide or proceed now to the next lab: [Build Docker images for apps](02-dockerize-apps.md).
+
+The instructions below show you how to install a Kubernetes Cluster using AKS.
+
 ## Create AKS cluster
 
 This is a very simple step, yet very powerful, as all the intricacies of configuring and installing a Kubernetes Cluster are abstracted out for you. Behind the scenes, Azure uses [ACS Engine](https://github.com/Azure/acs-engine) for creating the cluster. ACS Engine, not to be confused with Azure Container Services (ACS), is an open source utility for generating ARM Templates for Docker-enabled clusters, such as Kubernetes. It's worth noting that AKS *is* the replacement for Azure Container Services. Confusing... We know.

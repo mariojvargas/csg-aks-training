@@ -16,7 +16,7 @@ Certain labs, such as launching the Kubernetes UI or running Docker containers l
 
 1. [Setup Lab environment](labs/day1-labs/00-lab-environment.md)
 2. [Create an Azure Kubernetes Service (AKS) cluster](labs/day1-labs/03-create-aks-cluster.md)
-3. [Create Docker images for apps](labs/day1-labs/02-dockerize-apps.md)
+3. [Build Docker images for apps](labs/day1-labs/02-dockerize-apps.md)
 4. [Push Docker images to Azure Container Registry](labs/day1-labs/02.01-deploy-docker-img-acr.md)
 5. [Deploy application to Azure Kubernetes Service](labs/day1-labs/04-deploy-app-aks.md)
 6. [Kubernetes UI Overview](labs/day1-labs/05-kubernetes-ui.md)
