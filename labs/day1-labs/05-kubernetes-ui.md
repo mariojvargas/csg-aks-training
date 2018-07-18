@@ -37,14 +37,13 @@ There are multiple ways of accessing the Kubernetes dashboard. You can access it
     Handling connection for 8001
     ```
 
-    Here's another approach that uses port-forwarding via `kubectl port-forward`.
+    Here's another approach that uses port-forwarding via `kubectl port-forward`. Once it's finished running, point your web browser to [http://localhost:9090/](http://localhost:9090/) or type `curl localhost:9090` in the terminal.
 
     ```bash
-    $ kubectl port-forward svc/kubernetes-dashboard 9090:80
+    $ kubectl port-forward --namespace kube-system svc/kubernetes-dashboard 9090:80
 
     Forwarding from 127.0.0.1:9090 -> 9090
     Forwarding from [::1]:9090 -> 9090
-    Handling connection for 9090
     ```
 
 ### Explore Kubernetes Dashboard
