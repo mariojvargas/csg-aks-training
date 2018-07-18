@@ -135,4 +135,3 @@ spec:
             backend:
               serviceName: web
               servicePort: 8080
-                        

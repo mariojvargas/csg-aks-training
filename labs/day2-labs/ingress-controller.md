@@ -14,127 +14,29 @@ There are a number of ingress controllers available today. Here is a quick, but 
 
 For the purposes of this lab we will be using Nginx as our ingress controller.
 
-## Configure Helm
+## Installing Ingress Controller Using Helm
 
-We will use Helm to install Nginx. We had configured Helm in prior labs.
+If you are using a shared AKS Cluster, Nginx Ingress should have already been installed for you. Please proceed to the "*Deploy the heroes Web and API apps with Ingress*" section below.
 
-1. Validate your Helm install by running the below commands.
+If you installed the AKS cluster on an individual subscription or a shared subscription using separate resource groups, please proceed to the instructions found in [Installing Nginx Ingress](helm-install-ingress.md) and then return to this lab.
 
-    ``` bash
-    $ helm version
-
-    Client: &version.Version{SemVer:"v2.9.1", GitCommit:"20adb27c7c5868466912eebdf6664e7390ebe710", GitTreeState:"clean"}
-    Server: &version.Version{SemVer:"v2.9.1", GitCommit:"20adb27c7c5868466912eebdf6664e7390ebe710", GitTreeState:"clean"}
-    ```
-
-    > Note: If helm was not configured, you must run `helm init`
-
-## Install Nginx using Helm
-
-The [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/) (or visit [Helm Chart](https://github.com/kubernetes/charts/tree/master/stable/nginx-ingress)) is an Ingress controller that uses a ConfigMap to store the Nginx configuration and provides [layer 7 capabilities](https://en.wikipedia.org/wiki/OSI_model) for applications deployed on Kubernetes.
-
-1. Install Nginx using Helm CLI. This will install the Nginx Ingress Controller into the K8s cluster under the `kube-system` namespace, which is created and reserved for internal Kubernetes services, such as `kube-dns`, `kube-proxy`, etc.  
-
-    ``` bash
-    $ helm install --name ingress stable/nginx-ingress --namespace kube-system
-    ```
-
-2. Validate that Nginx was installed
-
-    ``` bash
-    $ kubectl get pods -n kube-system | grep nginx
-
-    ingress-nginx-ingress-controller-86bf69bcfc-jqvsg        1/1       Running   0          1d
-    ingress-nginx-ingress-default-backend-86d6db4c47-td2k8   1/1       Running   0          1d
-    ```
-
-    The nginx-ingress helm chart deploys a Nginx ingress controller and also a backend for the ingress controller. The backend is used when a route is not found and will display a 404 error. You can browse to the public IP to preview this.
-
-    ``` bash
-    $ kubectl get svc -n kube-system | grep nginx
-
-    ingress-nginx-ingress-controller       LoadBalancer  10.0.231.143  52.173.190.190  80:30910/TCP,443:30480/TCP  1d
-    ingress-nginx-ingress-default-backend  ClusterIP     10.0.175.123  <none>          80/TCP                      1d
-    ```
-
-    The Nginx controller will use a LoadBalancer type service where the backend is of type ClusterIP.
-
-## Deploy the heroes Web and API apps with Ingress
+## Deploy the Heroes Web and API Apps with Ingress
 
 We will now deploy the application with a configured Ingress resource.
 
-1. Clear anything out of your cluster by deleting your deployments
+1. Delete the `heroes-web-api.yaml` deployment
 
     ```bash
-    $ kubectl delete -f heroes-db.yaml
-
     $ kubectl delete -f heroes-web-api.yaml
     ```
 
-2. Switch to the `helper-files` directory and view the
-   `heroes-web-api-ingress.yaml` file.
+2. In the `~/repos/csg-aks-training/labs/helper-files` directory, create a new file called `heroes-web-api-ingress.yaml`.
 
-    ``` bash
-    $ cd ~/repos/csg-aks-training/labs/helper-files
+3. Copy the contents of the `heroes-web-api.yaml` file and paste them into the `heroes-web-api-ingress.yaml` file.
 
-    $ cat heroes-web-api-ingress.yaml
-    ```
+4. In the `heroes-web-api-ingress.yaml` file, locate the `kind: Service` manifest for the service named `web` (line 56). Then a few lines below, replace the `type:` property's value with `NodePort` (should be line 63).
 
-3. Change all image field in the YAML files to match your docker registry url.
-
-    * Update the yaml files for the proper container image names.
-    * Update all instances of `namespace: <namespace-name>` to match your first initial and last name. For example: `namespace: mvargas`.
-    * You will need to replace the `<login server>` with the ACR login server created in earlier labs.
-        > Note: You will update the image name ***twice*** in the Web and API container images and ***once*** in the database container image.
-
-        **Example:**
-
-        ```yaml
-        spec:
-        containers:
-        - image: mycontainerregistry.azurecr.io/azureworkshop/rating-web:v1
-            name:  heroes-web-cntnr
-        ```
-
-4. Deploy the heroes-db.yaml manifest and import the data
-
-    ``` bash
-    $ kubectl apply -f heroes-db.yaml
-    ```
-
-5. Connect into the pod and import the hero data
-
-    ```bash
-    $ kubectl get pods --namespace mvargas
-
-    NAME                                 READY     STATUS    RESTARTS   AGE
-    heroes-db-deploy-2357291595-k7wjk    1/1       Running   0          3m
-
-    $ MONGO_POD=heroes-db-deploy-2357291595-k7wjk
-
-    $ kubectl exec -it --namespace mvargas $MONGO_POD bash
-
-    # Execute the ./import.sh file
-    root@heroes-db-deploy-2357291595-xb4xm:/# ./import.sh
-
-    2018-01-16T21:38:44.819+0000	connected to: localhost
-    2018-01-16T21:38:44.918+0000	imported 4 documents
-    2018-01-16T21:38:44.927+0000	connected to: localhost
-    2018-01-16T21:38:45.031+0000	imported 72 documents
-    2018-01-16T21:38:45.040+0000	connected to: localhost
-    2018-01-16T21:38:45.152+0000	imported 2 documents
-    root@heroes-db-deploy-2357291595-xb4xm:/# exit
-    ```
-
-    Be sure to exit pod as shown in the last line above
-
-6. Deploy heroes-web-api-ingress.yaml
-
-    ``` bash
-    $ kubectl apply -f heroes-web-api-ingress.yaml
-    ```
-
-    > Note: Below is an example of a Ingress configuration. Place special attention to the `rules:` section and how elements are indented, as it is one of the trickiest parts about configuring an Ingress. You can list out multiple paths, each pointing to a different `backend` if necessary. The `host:` can be set to an empty host or any valid domain name, such as `host: heroes.csgtraining.cardinalsolutions.com`.
+5. At the very end of the `heroes-web-api-ingress.yaml` file, add the following Ingress configuration for the Heroes Web app. The separator `---` is required. Then save your changes when finished. **Make sure the `namespace:` property matches the namespace you've been using.**
 
     ```yaml
     ---
@@ -142,7 +44,7 @@ We will now deploy the application with a configured Ingress resource.
     kind: Ingress
     metadata:
       name: heroes-web-ingress
-      namespace: mvargas
+      namespace: <use-same-namespace-as-web-deployment>
       annotations:
         kubernetes.io/ingress.class: nginx
         # Add to generate certificates for this ingress
@@ -158,18 +60,32 @@ We will now deploy the application with a configured Ingress resource.
                   servicePort: 8080
     ```
 
+6. Deploy `heroes-web-api-ingress.yaml`
+
+    ``` bash
+    $ kubectl apply -f heroes-web-api-ingress.yaml
+
+    service "api" created
+    deployment.extensions "heroes-api-deploy" created
+    service "web" created
+    deployment.extensions "heroes-web-deploy" created
+    ingress.extensions "heroes-web-ingress" created
+    ```
+
+
 7. Browse to the web app via the Ingress controller by obtaining its public (external) IP address.
 
     ```bash
-    $ kubectl get svc -n kube-system | grep ingress
+    $ kubectl get svc -n kube-system -o wide --selector="app=nginx-ingress"
 
-    ingress-nginx-ingress-controller        LoadBalancer   10.0.155.205   52.186.29.245   80:32045/TCP,443:31794/TCP   2h
-    ingress-nginx-ingress-default-backend   ClusterIP      10.0.171.59    <none>          80/TCP                       2h
+    NAME                                    TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
+    ingress-nginx-ingress-controller        LoadBalancer   10.0.77.71     52.179.211.89   80:32319/TCP,443:30487/TCP   20d       app=nginx-ingress,component=controller,release=ingress
+    ingress-nginx-ingress-default-backend   ClusterIP      10.0.232.223   <none>          80/TCP                       20d       app=nginx-ingress,component=default-backend,release=ingress
     ```
 
-8. Navigate to the external IP of the controller. In the output above, the public IP address is `52.186.29.245`, so we use that as our HTTP URL using port 80 (default): http://52.186.29.245/
+8. Navigate to the external IP of the controller. In the output above, the public IP address is `52.179.211.89`, so we use that as our HTTP URL using port 80 (default): http://52.179.211.89/
 
-    > Note: you will likely see a privacy SSL warning.
+    > Note: you will likely see a privacy SSL warning because the Nginx ingress controller will redirect the browser to https://52.179.211.89/
 
 ## A Quick Word on Ingress Controllers
 
@@ -183,3 +99,7 @@ For additional information on Kubernetes Ingress Controllers and on how they wor
 * [Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
 
  Ingress controllers are an important concept to understand and you will certainly encounter them in many of your Kubernetes implementations.
+
+## Comparing Your Work
+
+A completed version of the ingress configuration can be found in the `heroes-web-api-ingress--final.yaml` file, located under the `helper-files` directory. If you intend to use that file, you will need to replace all placeholders with the values you've used in the labs.

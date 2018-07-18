@@ -29,6 +29,10 @@ These labs, in addition to creating an AKS Cluster, have the potential to take a
 1. [Application and Infrastructure Scaling](labs/day1-labs/07-cluster-scaling.md)
 2. [Upgrade an Azure Kubernetes Service (AKS) cluster](labs/day1-labs/10-cluster-upgrading.md)
 
+## Additional Configuration
+
+* [Installing Nginx Ingress Using Helm](labs/day2-labs/helm-install-ingress.md)
+
 ## Credits and Source
 
 This project is based on the [Black Belt AKS Hackfest Labs](https://github.com/Azure/blackbelt-aks-hackfest) and has been adapted for internal training use.
